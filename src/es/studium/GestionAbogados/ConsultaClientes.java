@@ -21,23 +21,21 @@ import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 
-public class ConsultaAbogado implements WindowListener, ActionListener
+public class ConsultaClientes implements WindowListener, ActionListener
 {
-	Frame ventana = new Frame ("Listado abogados");
+Frame ventana = new Frame ("Listado clientes");
 	
 	Label lblNombre = new Label ("Nombre      ");
 	Label lblApellido = new Label ("     Apellido     ");
-	Label lblTarifa = new Label ("     Tarifa     ");
 	Label lblCorreo = new Label ("     Correo");
 	TextArea listado = new TextArea(8,40);
 	Button btnVolver = new Button("Volver");
 	Button btnExportar = new Button("Exportar a PDF");
 	Datos datos = new Datos();
 	
-	String exportar = "ConsultaAbogados.pdf";
+	String exportar = "ConsultaClientes.pdf";
 	
-	
-	ConsultaAbogado()
+	ConsultaClientes()
 	{
 		ventana.setLayout(new FlowLayout());
 		ventana.addWindowListener(this);
@@ -46,13 +44,12 @@ public class ConsultaAbogado implements WindowListener, ActionListener
 		
 		//Conectar BD
 		datos.conectar();
-		listado.append(datos.dameAbogados());
+		listado.append(datos.dameClientes());
 		listado.setEditable(false); //Para bloquear la escritura en el textArea
 		datos.desconectar();
 		
 		ventana.add(lblNombre);
 		ventana.add(lblApellido);
-		ventana.add(lblTarifa);
 		ventana.add(lblCorreo);
 		
 		ventana.add(listado);
@@ -64,7 +61,7 @@ public class ConsultaAbogado implements WindowListener, ActionListener
 		ventana.setLocationRelativeTo(null);
 		ventana.setVisible(true);
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
@@ -82,7 +79,7 @@ public class ConsultaAbogado implements WindowListener, ActionListener
 				// Create a pdfFOnt
 				PdfFont font = PdfFontFactory.createFont(StandardFonts.HELVETICA);
 				//Add paragraph to the document
-				document.add(new Paragraph(datos.dameAbogados()).setFont(font));
+				document.add(new Paragraph(datos.dameClientes()).setFont(font));
 				//Close document
 				document.close();
 				// Open the new PDF document just created
@@ -128,6 +125,13 @@ public class ConsultaAbogado implements WindowListener, ActionListener
 	}
 
 	@Override
+	public void windowDeiconified(WindowEvent e)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
 	public void windowActivated(WindowEvent e)
 	{
 		// TODO Auto-generated method stub
@@ -140,12 +144,4 @@ public class ConsultaAbogado implements WindowListener, ActionListener
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	public void windowDeiconified(WindowEvent e)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-	
 }

@@ -1,6 +1,7 @@
 package es.studium.GestionAbogados;
 
 import java.awt.Button;
+import java.awt.Choice;
 import java.awt.Dialog;
 import java.awt.FlowLayout;
 import java.awt.Frame;
@@ -11,50 +12,58 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-public class AltaAbogado implements WindowListener, ActionListener
+public class AltaCasos implements WindowListener, ActionListener
 {
-	Frame ventana = new Frame("Alta abogados");
+	Frame ventana = new Frame("Alta Casos");
 	
-	Label lblNombre = new Label ("Nombre");
-	TextField txtNombre = new TextField(20);
-	Label lblApellido = new Label ("Apellido");
-	TextField txtApellido = new TextField(20);
-	Label lblTarifa = new Label ("Tarifa");
-	TextField txtTarifa = new TextField(20);
-	Label lblCorreo = new Label ("Correo");
-	TextField txtCorreo = new TextField(20);
+	Label lblDescripcion = new Label ("Descripción");
+	TextField txtDescripcion = new TextField(20);
+	Label lblFechaInicio = new Label ("Fecha de inicio");
+	TextField txtFechaInicio = new TextField(20);
+	Label lblEstado = new Label ("Estado");
+	TextField txtEstado = new TextField(20);
+	Label lblAbogado = new Label ("Abogado");
+	Choice choAbogado = new Choice();
 	
 	Button btnAceptar = new Button("Aceptar");
 	Button btnLimpiar = new Button("Limpiar");
 	Datos datos = new Datos(); //Instanciar objeto "Datos" para conectar con la clase "Datos"
 	Dialog mensaje = new Dialog(ventana, "Mensaje", true);
-	Label lblMensaje = new Label("Abogado creado correctamente");
-	
+	Label lblMensaje = new Label("Caso creado correctamente");
 
-	AltaAbogado()
+	AltaCasos()
 	{
+		datos.conectar();
+		String[] abogados = datos.rellenarChoiceAbogado();
+		datos.desconectar();
+		
+		for(int i=0; i<abogados.length; i++)
+		{
+			choAbogado.add(abogados[i]);
+		}
 		
 		ventana.setLayout(new FlowLayout());
 		ventana.addWindowListener(this);
 		
-		ventana.add(lblNombre);
-		ventana.add(txtNombre);
-		ventana.add(lblApellido);
-		ventana.add(txtApellido);
-		ventana.add(lblTarifa);
-		ventana.add(txtTarifa);
-		ventana.add(lblCorreo);
-		ventana.add(txtCorreo);
+		ventana.add(lblDescripcion);
+		ventana.add(txtDescripcion);
+		ventana.add(lblFechaInicio);
+		ventana.add(txtFechaInicio);
+		ventana.add(lblEstado);
+		ventana.add(txtEstado);
+		ventana.add(lblAbogado);
+		ventana.add(choAbogado);
 		
 		btnAceptar.addActionListener(this);
 		ventana.add(btnAceptar);
 		btnLimpiar.addActionListener(this);
 		ventana.add(btnLimpiar);
 		
-		ventana.setSize(300, 200);
+		ventana.setSize(320, 200);
 		ventana.setResizable(false);
 		ventana.setLocationRelativeTo(null);
 		ventana.setVisible(true);
+
 	}
 	public void windowActivated(WindowEvent windowEvent)
 	{
@@ -69,11 +78,11 @@ public class AltaAbogado implements WindowListener, ActionListener
 		if (mensaje.isActive())
 		{
 			mensaje.setVisible(false);
-			txtNombre.setText("");
-			txtApellido.setText("");
-			txtTarifa.setText("");
-			txtCorreo.setText("");
-			txtNombre.requestFocus();
+			txtDescripcion.setText("");
+			txtFechaInicio.setText("");
+			txtEstado.setText("");
+			choAbogado.select(0);
+			txtDescripcion.requestFocus();
 		}
 		else
 		{
@@ -96,8 +105,9 @@ public class AltaAbogado implements WindowListener, ActionListener
 	{
 		if (actionEvent.getSource().equals(btnAceptar))
 		{
-			datos.conectar();
-			boolean altaCorrecta = datos.altaAbogado(txtNombre.getText(), txtApellido.getText(), txtTarifa.getText(), txtCorreo.getText());
+			String idAbogado=choAbogado.getSelectedItem().split("-")[0];
+			datos.conectar(); 
+			boolean altaCorrecta = datos.altaCasos(txtDescripcion.getText(), txtFechaInicio.getText(), txtEstado.getText(), idAbogado);
 			mensaje.setLayout(new FlowLayout());
 			mensaje.addWindowListener(this);
 			mensaje.setSize(250, 70);
@@ -109,7 +119,7 @@ public class AltaAbogado implements WindowListener, ActionListener
 			}
 			else
 			{
-				lblMensaje.setText("Abogado creado correctamente");
+				lblMensaje.setText("Caso creado correctamente");
 			}
 			mensaje.add(lblMensaje);
 			mensaje.setVisible(true);
@@ -117,11 +127,11 @@ public class AltaAbogado implements WindowListener, ActionListener
 		}
 		else if (actionEvent.getSource().equals(btnLimpiar))
 		{
-			txtNombre.setText("");
-			txtApellido.setText("");
-			txtTarifa.setText("");
-			txtCorreo.setText("");
-			txtNombre.requestFocus();
+			txtDescripcion.setText("");
+			txtFechaInicio.setText("");
+			txtEstado.setText("");
+			choAbogado.select(0);
+			txtDescripcion.requestFocus();
 		}
 	}
 }

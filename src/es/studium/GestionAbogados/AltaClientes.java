@@ -11,16 +11,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-public class AltaAbogado implements WindowListener, ActionListener
+public class AltaClientes implements WindowListener, ActionListener
 {
-	Frame ventana = new Frame("Alta abogados");
+	Frame ventana = new Frame("Alta clientes");
 	
 	Label lblNombre = new Label ("Nombre");
 	TextField txtNombre = new TextField(20);
 	Label lblApellido = new Label ("Apellido");
 	TextField txtApellido = new TextField(20);
-	Label lblTarifa = new Label ("Tarifa");
-	TextField txtTarifa = new TextField(20);
 	Label lblCorreo = new Label ("Correo");
 	TextField txtCorreo = new TextField(20);
 	
@@ -30,10 +28,8 @@ public class AltaAbogado implements WindowListener, ActionListener
 	Dialog mensaje = new Dialog(ventana, "Mensaje", true);
 	Label lblMensaje = new Label("Abogado creado correctamente");
 	
-
-	AltaAbogado()
+	AltaClientes()
 	{
-		
 		ventana.setLayout(new FlowLayout());
 		ventana.addWindowListener(this);
 		
@@ -41,8 +37,6 @@ public class AltaAbogado implements WindowListener, ActionListener
 		ventana.add(txtNombre);
 		ventana.add(lblApellido);
 		ventana.add(txtApellido);
-		ventana.add(lblTarifa);
-		ventana.add(txtTarifa);
 		ventana.add(lblCorreo);
 		ventana.add(txtCorreo);
 		
@@ -56,48 +50,14 @@ public class AltaAbogado implements WindowListener, ActionListener
 		ventana.setLocationRelativeTo(null);
 		ventana.setVisible(true);
 	}
-	public void windowActivated(WindowEvent windowEvent)
-	{
-	}
 
-	public void windowClosed(WindowEvent windowEvent)
+	@Override
+	public void actionPerformed(ActionEvent e)
 	{
-	}
-
-	public void windowClosing(WindowEvent windowEvent)
-	{
-		if (mensaje.isActive())
-		{
-			mensaje.setVisible(false);
-			txtNombre.setText("");
-			txtApellido.setText("");
-			txtTarifa.setText("");
-			txtCorreo.setText("");
-			txtNombre.requestFocus();
-		}
-		else
-		{
-			ventana.setVisible(false);
-		}
-	}
-	public void windowDeactivated(WindowEvent windowEvent)
-	{
-	}
-	public void windowDeiconified(WindowEvent windowEvent)
-	{
-	}
-	public void windowIconified(WindowEvent windowEvent)
-	{
-	}
-	public void windowOpened(WindowEvent windowEvent)
-	{
-	}
-	public void actionPerformed(ActionEvent actionEvent)
-	{
-		if (actionEvent.getSource().equals(btnAceptar))
+		if (e.getSource().equals(btnAceptar))
 		{
 			datos.conectar();
-			boolean altaCorrecta = datos.altaAbogado(txtNombre.getText(), txtApellido.getText(), txtTarifa.getText(), txtCorreo.getText());
+			boolean altaCorrecta = datos.altaClientes(txtNombre.getText(), txtApellido.getText(), txtCorreo.getText());
 			mensaje.setLayout(new FlowLayout());
 			mensaje.addWindowListener(this);
 			mensaje.setSize(250, 70);
@@ -109,19 +69,78 @@ public class AltaAbogado implements WindowListener, ActionListener
 			}
 			else
 			{
-				lblMensaje.setText("Abogado creado correctamente");
+				lblMensaje.setText("Cliente creado correctamente");
 			}
 			mensaje.add(lblMensaje);
 			mensaje.setVisible(true);
 			datos.desconectar();
 		}
-		else if (actionEvent.getSource().equals(btnLimpiar))
+		else if (e.getSource().equals(btnLimpiar))
 		{
 			txtNombre.setText("");
 			txtApellido.setText("");
-			txtTarifa.setText("");
 			txtCorreo.setText("");
 			txtNombre.requestFocus();
 		}
+	}
+
+	@Override
+	public void windowOpened(WindowEvent e)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowClosing(WindowEvent e)
+	{
+		if (mensaje.isActive())
+		{
+			mensaje.setVisible(false);
+			txtNombre.setText("");
+			txtApellido.setText("");
+			txtCorreo.setText("");
+			txtNombre.requestFocus();
+		}
+		else
+		{
+			ventana.setVisible(false);
+		}
+		
+	}
+
+	@Override
+	public void windowClosed(WindowEvent e)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowIconified(WindowEvent e)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent e)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowActivated(WindowEvent e)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent e)
+	{
+		// TODO Auto-generated method stub
+		
 	}
 }

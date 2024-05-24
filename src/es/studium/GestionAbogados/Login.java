@@ -11,14 +11,16 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
+
+
 public class Login implements WindowListener, ActionListener
 {
 	Frame ventana = new Frame("Login");
 	Label lblUsuario = new Label("Usuario:");
 	Label lblClave = new Label("Clave:");
 	Label lblError = new Label("Credenciales Incorrectas");
-	TextField txtUsuario = new TextField("",20); 
-	TextField txtClave = new TextField("",20);
+	TextField txtUsuario = new TextField("Admin",20); 
+	TextField txtClave = new TextField("Studium2023;",20);
 	Button btnAceptar = new Button("Aceptar");
 	Button btnLimpiar = new Button("Limpiar");
 	Dialog dlgError = new Dialog(ventana, "Error", true);
@@ -90,6 +92,7 @@ public class Login implements WindowListener, ActionListener
 		{
 			// Conectar a la BD
 			Datos datos = new Datos();
+			Utilidades utilidades = new Utilidades();
 			
 			if (datos.conectar() == true)
 			{
@@ -100,6 +103,12 @@ public class Login implements WindowListener, ActionListener
 				if (datos.comprobarCredenciales(usuario, clave) == true)
 				{
 					char tipoUsuario = datos.dameTipo(usuario); //Para login con tipo usuarios
+					
+					utilidades.nombreUsuario=usuario; //Guardado del nombre de usuario para log
+					utilidades.tipo=tipoUsuario; // Cada vez que haga el login se me guarda el tipo de usuario 
+					// en el static de utilidades
+					
+					utilidades.guardarLog("Ha entrado"); // PARA EL LOG
 					
 					// Si OK, ir al Menú Principal
 					//System.out.println(tipoUsuario);

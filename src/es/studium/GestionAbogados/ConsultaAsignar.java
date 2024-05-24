@@ -21,50 +21,56 @@ import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.Paragraph;
 
-public class ConsultaAbogado implements WindowListener, ActionListener
+public class ConsultaAsignar implements WindowListener, ActionListener
 {
-	Frame ventana = new Frame ("Listado abogados");
+	Frame ventana = new Frame ("Listado asignar");
 	
-	Label lblNombre = new Label ("Nombre      ");
-	Label lblApellido = new Label ("     Apellido     ");
-	Label lblTarifa = new Label ("     Tarifa     ");
-	Label lblCorreo = new Label ("     Correo");
-	TextArea listado = new TextArea(8,40);
+	Label lblDescripcion = new Label ("Descripción    ");
+	Label lblFechaInicio = new Label ("   Fecha Inicio    ");
+	Label lblNombreCliente = new Label ("   Nombre Cliente   ");
+	Label lblApellidoCliente = new Label ("   Apellido Cliente");
+	
+	TextArea listado = new TextArea(8,50);
+	
 	Button btnVolver = new Button("Volver");
 	Button btnExportar = new Button("Exportar a PDF");
+	
 	Datos datos = new Datos();
 	
-	String exportar = "ConsultaAbogados.pdf";
+	String exportar = "ConsultaCasos.pdf";
 	
 	
-	ConsultaAbogado()
+	public ConsultaAsignar()
 	{
 		ventana.setLayout(new FlowLayout());
 		ventana.addWindowListener(this);
 		btnVolver.addActionListener(this);
 		btnExportar.addActionListener(this);
 		
-		//Conectar BD
+		
 		datos.conectar();
-		listado.append(datos.dameAbogados());
+		listado.append(datos.dameAsignar());
 		listado.setEditable(false); //Para bloquear la escritura en el textArea
 		datos.desconectar();
 		
-		ventana.add(lblNombre);
-		ventana.add(lblApellido);
-		ventana.add(lblTarifa);
-		ventana.add(lblCorreo);
+		ventana.add(lblDescripcion);
+		ventana.add(lblFechaInicio);
+		ventana.add(lblNombreCliente);
+		ventana.add(lblApellidoCliente);
 		
 		ventana.add(listado);
+		
 		ventana.add(btnVolver);
 		ventana.add(btnExportar);
 		
-		ventana.setSize(400, 250);
+		ventana.setSize(450, 250);
 		ventana.setResizable(false);
 		ventana.setLocationRelativeTo(null);
 		ventana.setVisible(true);
+		
 	}
-	
+
+
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
@@ -82,7 +88,7 @@ public class ConsultaAbogado implements WindowListener, ActionListener
 				// Create a pdfFOnt
 				PdfFont font = PdfFontFactory.createFont(StandardFonts.HELVETICA);
 				//Add paragraph to the document
-				document.add(new Paragraph(datos.dameAbogados()).setFont(font));
+				document.add(new Paragraph(datos.dameAsignar()).setFont(font));
 				//Close document
 				document.close();
 				// Open the new PDF document just created
@@ -99,12 +105,14 @@ public class ConsultaAbogado implements WindowListener, ActionListener
 		
 	}
 
+
 	@Override
 	public void windowOpened(WindowEvent e)
 	{
 		// TODO Auto-generated method stub
 		
 	}
+
 
 	@Override
 	public void windowClosing(WindowEvent e)
@@ -113,12 +121,14 @@ public class ConsultaAbogado implements WindowListener, ActionListener
 		
 	}
 
+
 	@Override
 	public void windowClosed(WindowEvent e)
 	{
 		// TODO Auto-generated method stub
 		
 	}
+
 
 	@Override
 	public void windowIconified(WindowEvent e)
@@ -127,19 +137,6 @@ public class ConsultaAbogado implements WindowListener, ActionListener
 		
 	}
 
-	@Override
-	public void windowActivated(WindowEvent e)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void windowDeactivated(WindowEvent e)
-	{
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void windowDeiconified(WindowEvent e)
@@ -147,5 +144,20 @@ public class ConsultaAbogado implements WindowListener, ActionListener
 		// TODO Auto-generated method stub
 		
 	}
-	
+
+
+	@Override
+	public void windowActivated(WindowEvent e)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void windowDeactivated(WindowEvent e)
+	{
+		// TODO Auto-generated method stub
+		
+	}
 }
